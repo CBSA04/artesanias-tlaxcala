@@ -1,0 +1,43 @@
+OK catálogo público
+OK catálogo con imágenes y productos
+OK ficha completa
+OK protección CSRF
+OK visitante no compra
+OK registro e inicio de sesión
+OK registro no permite elevar privilegios
+OK agregar al carrito
+OK compra e historial
+OK reenvío no duplica pedido
+OK pedido privado por propietario
+OK sesión vendedor
+OK vendedor consulta pedidos de su taller
+OK permisos del vendedor
+OK rechazo de SVG subido
+OK alta de producto con imagen validada
+OK edición de ficha propia
+OK actualización de inventario
+OK edición desactualizada rechazada
+OK sesión administrador
+OK administrador respeta separación de roles
+OK administrador crea usuarios
+OK vendedor no edita productos ajenos
+OK pieza del nuevo vendedor es pública
+OK administrador modifica usuarios
+OK administrador da de baja usuarios
+OK baja revoca sesiones activas
+OK cuenta inactiva no inicia sesión
+OK baja del vendedor retira su oferta pública
+OK carrito impide comprar a taller inactivo
+OK protección del último administrador
+OK filtro por categoría
+OK búsqueda conserva categoría
+OK ruta /assets/app.css
+OK ruta /assets/app.js
+OK ruta /assets/favicon.svg
+OK ruta /assets/products/sarape.svg
+OK ruta /acerca
+OK ruta /no-existe
+OK límite de intentos de acceso
+OK cierre de sesión
+OK sesión cerrada pierde acceso a pedidos
+42 comprobaciones HTTP correctas

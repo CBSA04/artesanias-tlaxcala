@@ -1,0 +1,27 @@
+<?php
+declare(strict_types=1);
+use App\Core\Database as DB;
+$db=DB::connection();
+$db->beginTransaction();
+try {
+ foreach (['cliente'=>['María Hernández','cliente@demo.test'],'vendedor'=>['Taller Raíces de Tlaxcala','vendedor@demo.test'],'administrador'=>['Administración de la plataforma','admin@demo.test']] as $role=>[$name,$email]) {
+  if(!DB::one('SELECT id FROM users WHERE email=?',[$email])) DB::run('INSERT INTO users(name,email,password_hash,role,active,created_at) VALUES(?,?,?,?,1,?)',[$name,$email,password_hash('Tlaxcala2026!',PASSWORD_DEFAULT),$role,date('Y-m-d H:i:s')]);
+ }
+ $seller=DB::one('SELECT id FROM users WHERE email=?',['vendedor@demo.test'])['id'];
+ $pieces=[
+ ['Sarape de franjas','textiles','Contla de Juan Cuamatzi','Lana y algodón; tejido de franjas multicolores.','Una prenda para abrigar y una pieza decorativa que aporta color al hogar.','Este ejemplo celebra el trabajo textil de la región. Las franjas combinan tonos cálidos y fríos para mostrar cómo un tejido puede expresar identidad a través del color. El relato es ilustrativo y debe sustituirse por el testimonio del taller al publicar una pieza real.','sarape','1250.00',8],
+ ['Jarrón de barro','ceramica','San Pablo del Monte','Barro cocido con acabado decorativo.','Recipiente decorativo para un espacio interior. No se ofrece como utensilio para alimentos.','Modelar, secar, cocer y decorar son etapas que requieren tiempo y cuidado. En esta ficha de ejemplo, las bandas pintadas evocan el encuentro entre formas geométricas y tonos de la tierra. Cada taller puede contar aquí la historia de su propia pieza.','jarron','680.00',12],
+ ['Cojín de motivos tejidos','textiles','Chiautempan','Funda textil de algodón con relleno sintético.','Un acento de textura y color para sillones y espacios de descanso.','Los motivos geométricos de esta ilustración proponen una lectura contemporánea del tejido decorativo. La ficha demuestra cómo explicar el trabajo de una pieza sin atribuirle una antigüedad o significado que no haya documentado su creador.','cojin','420.00',15],
+ ['Taza de barro decorado','ceramica','San Pablo del Monte','Barro cocido con acabado decorativo.','Pieza decorativa de colección. El uso alimentario requiere certificación del acabado por el vendedor.','La forma de una taza reúne gestos cotidianos: sostener, servir y compartir. Esta pieza de demostración utiliza una banda geométrica como ejemplo de decoración. Su historia debe complementarse con información verificable sobre el taller y la técnica de la pieza real.','taza','180.00',20],
+ ['Plato de motivos florales','ceramica','Tlaxcala','Cerámica decorada en tonos verdes y arena.','Objeto ornamental para decorar una pared o una repisa.','El diseño floral de esta ilustración muestra cómo la repetición y la simetría pueden transformar una superficie circular. Es una propuesta gráfica del catálogo de demostración, sin atribución a una colección o autor histórico.','plato','350.00',10],
+ ['Máscara tallada','madera','Tlatempan','Madera tallada y acabado en tonos naturales.','Objeto decorativo que permite apreciar el volumen y la expresión del tallado.','El tallado comienza con el dibujo de las formas y continúa retirando material hasta encontrar una expresión. Este relato describe una aproximación general al oficio; el vendedor debe documentar la procedencia y el contexto de la máscara específica.','mascara','980.00',5],
+ ['Canasta de fibras','decoracion','Tlaxco','Fibras vegetales entrelazadas.','Organizador decorativo para objetos ligeros en el hogar.','Cruzar una fibra sobre otra produce una estructura que combina resistencia y flexibilidad. Este ejemplo permite contar cómo un objeto útil también puede mostrar el ritmo del trabajo manual. La especie de fibra y su procedencia deben confirmarse para cada producto real.','canasta','290.00',0],
+ ['Camino de mesa terracota','textiles','Contla de Juan Cuamatzi','Tejido de algodón con acabado de flecos.','Textil decorativo para mesas y aparadores.','Un camino de mesa delimita un espacio para compartir y coloca la textura en el centro de la vida cotidiana. La ilustración presenta motivos y flecos de diseño original, creados para demostrar las posibilidades de presentación del catálogo.','camino','560.00',7],
+ ['Florero de líneas','ceramica','Huamantla','Barro cocido con bandas decorativas.','Recipiente ornamental para flores secas; uso con agua sujeto al acabado de la pieza real.','Las líneas horizontales resaltan el volumen y acompañan la forma del recipiente. Este florero es un ejemplo visual para la plataforma. Su ficha debe incorporar, en una publicación comercial, el proceso y la anécdota aportados por el taller responsable.','florero','490.00',9]
+ ];
+ foreach($pieces as [$name,$category,$place,$material,$utility,$history,$asset,$price,$stock]) {
+  if(DB::one('SELECT id FROM products WHERE name=? AND seller_id=?',[$name,$seller]))continue;
+  DB::run('INSERT INTO products(seller_id,name,material,utility,history,municipality,category,price,stock,source,published,image,illustrative,version,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,1,?,1,1,?)',[$seller,$name,$material,$utility,$history,$place,$category,$price,$stock,'Contenido e ilustración de demostración, elaborados para esta plataforma.','/assets/products/'.$asset.'.svg',date('Y-m-d H:i:s')]);
+ }
+ $db->commit();
+} catch(Throwable $e){if($db->inTransaction())$db->rollBack();throw $e;}

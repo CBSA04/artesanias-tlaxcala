@@ -1,0 +1,1 @@
+OK Dos procesos compiten por una unidad: un pedido, un rechazo, stock cero.

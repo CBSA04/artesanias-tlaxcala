@@ -1,0 +1,17 @@
+OK carrito vacío
+OK vendedor no compra
+OK cantidad inválida 0
+OK cantidad inválida -1
+OK cantidad inválida 100
+OK cantidad inválida "1"
+OK sin sobreventa
+OK precio modificado
+OK producto oculto
+OK descuento exacto de inventario
+OK importe calculado en servidor
+OK confirmación idempotente
+OK un solo pedido
+OK rollback de inventario tras fallo de escritura
+OK rollback de cabecera tras fallo de escritura
+OK contraseña protegida
+Todas las pruebas de transacción pasaron.
